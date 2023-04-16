@@ -7,7 +7,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
+@Getter
 @Entity
 public class MovieActor {
     @Id
@@ -22,4 +26,9 @@ public class MovieActor {
     @ManyToOne
     @JoinColumn(name = "actor_id")
     private Actor actor;
+
+    public MovieActor(Movie movie, Actor actor) {
+        this.movie = movie;
+        this.actor = actor;
+    }
 }
