@@ -19,7 +19,17 @@ public class Director {
 
     private String name;
 
+    private int orders;
+
     @ManyToOne
     @JoinColumn(name = "movie_id")
     private Movie movie;
+
+    public void setOrders(int orders) {
+        this.orders = orders;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
 }

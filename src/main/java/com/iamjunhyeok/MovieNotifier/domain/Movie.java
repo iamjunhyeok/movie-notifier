@@ -57,9 +57,19 @@ public class Movie extends DateTime {
 
     public void directing(List<Director> directors) {
         this.directors = directors;
+        for (int i = 0; i < directors.size(); i++) {
+            Director director = directors.get(i);
+            director.setOrders(i);
+            director.setMovie(this);
+        }
     }
 
     public void casting(List<Actor> actors) {
         this.actors = actors;
+        for (int i = 0; i < actors.size(); i++) {
+            Actor actor = actors.get(i);
+            actor.setOrders(i);
+            actor.setMovie(this);
+        }
     }
 }
