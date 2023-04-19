@@ -33,7 +33,7 @@ public class BatchConfiguration {
         return new JobBuilder("job", jobRepository)
                 .incrementer(new RunIdIncrementer())
                 .start(step())
-                .listener(new CustomJobExecutionListener())
+                .listener(new CustomJobExecutionListener(webCrawlingItemReader()))
                 .build();
     }
 
