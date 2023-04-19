@@ -32,6 +32,7 @@ import java.util.regex.Pattern;
 public class WebCrawlingItemReader implements ItemReader<Movie> {
 
     private RestTemplate restTemplate = new RestTemplate();
+
     private List<Movie> movies = null;
 
     @Value("${movie.url}")
@@ -82,6 +83,10 @@ public class WebCrawlingItemReader implements ItemReader<Movie> {
         genreMap.put("스릴러", Genre.THRILLER);
         genreMap.put("전쟁", Genre.WAR);
         genreMap.put("서부", Genre.WESTERN);
+    }
+
+    public void init() {
+        movies = null;
     }
 
     @Override

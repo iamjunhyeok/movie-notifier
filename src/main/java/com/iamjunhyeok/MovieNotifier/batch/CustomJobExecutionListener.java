@@ -9,8 +9,11 @@ import org.springframework.batch.core.JobExecutionListener;
 @RequiredArgsConstructor
 public class CustomJobExecutionListener implements JobExecutionListener {
 
+    private final WebCrawlingItemReader webCrawlingItemReader;
+
     @Override
     public void beforeJob(JobExecution jobExecution) {
+        webCrawlingItemReader.init();
         log.info("{} is beginning execution", jobExecution.getJobInstance().getJobName());
     }
 
