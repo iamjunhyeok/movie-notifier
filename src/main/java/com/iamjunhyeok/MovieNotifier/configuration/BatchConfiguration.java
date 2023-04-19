@@ -7,6 +7,8 @@ import com.iamjunhyeok.MovieNotifier.batch.FilterByUserItemProcessor;
 import com.iamjunhyeok.MovieNotifier.batch.SendNotificationItemWriter;
 import com.iamjunhyeok.MovieNotifier.batch.WebCrawlingItemReader;
 import com.iamjunhyeok.MovieNotifier.domain.Movie;
+import com.iamjunhyeok.MovieNotifier.domain.User;
+import com.iamjunhyeok.MovieNotifier.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -19,6 +21,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import java.util.List;
+import java.util.Map;
+
 @RequiredArgsConstructor
 @EnableBatchProcessing
 @Configuration
@@ -27,6 +32,8 @@ public class BatchConfiguration {
     private final JobRepository jobRepository;
 
     private final PlatformTransactionManager platformTransactionManager;
+
+    private final UserService userService;
 
     @Bean
     public Job job() {
@@ -40,9 +47,9 @@ public class BatchConfiguration {
     @Bean
     public Step step() {
         return new StepBuilder("step", jobRepository)
-                .<Movie, Movie>chunk(10, platformTransactionManager)
+                .<Movie, Map<Movie, List<User>>>chunk(10, platformTransactionManager)
                 .reader(webCrawlingItemReader())
-                .processor(filterByUserItemProcessor())
+                .processor(filterByUserItemProcessor(userService))
                 .writer(chainedItemWriter(dataStorageItemWriter(), sendNotificationItemWriter()))
                 .build();
     }
@@ -53,8 +60,8 @@ public class BatchConfiguration {
     }
 
     @Bean
-    public FilterByUserItemProcessor filterByUserItemProcessor() {
-        return new FilterByUserItemProcessor();
+    public FilterByUserItemProcessor filterByUserItemProcessor(UserService userService) {
+        return new FilterByUserItemProcessor(userService);
     }
 
     @Bean
