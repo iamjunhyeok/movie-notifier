@@ -29,11 +29,8 @@ public class FilterByUserItemProcessor implements ItemProcessor<Movie, Map<Movie
                 }
             }
         }
-        if (!matchedUsers.isEmpty()) {
-            Map<Movie, List<User>> map = new HashMap<>();
-            map.put(item, matchedUsers);
-            return map;
-        }
-        return null;
+        Map<Movie, List<User>> map = new HashMap<>();
+        map.put(item, matchedUsers);
+        return map;
     }
 }
