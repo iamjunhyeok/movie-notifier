@@ -11,6 +11,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,8 @@ public class User extends DateTime {
 
     private String phoneNumber;
 
+    private LocalTime notificationTime;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<GenreRating> genreRatings = new ArrayList<>();
 
@@ -44,5 +47,9 @@ public class User extends DateTime {
         for (GenreRating genreRating : genreRatings) {
             genreRating.setUser(this);
         }
+    }
+
+    public void changeNotificationTime(LocalTime localTime) {
+        this.notificationTime = localTime;
     }
 }
