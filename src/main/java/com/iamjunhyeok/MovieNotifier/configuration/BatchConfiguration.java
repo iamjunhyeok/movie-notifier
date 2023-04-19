@@ -8,6 +8,8 @@ import com.iamjunhyeok.MovieNotifier.batch.SendNotificationItemWriter;
 import com.iamjunhyeok.MovieNotifier.batch.WebCrawlingItemReader;
 import com.iamjunhyeok.MovieNotifier.domain.Movie;
 import com.iamjunhyeok.MovieNotifier.domain.User;
+import com.iamjunhyeok.MovieNotifier.service.MovieService;
+import com.iamjunhyeok.MovieNotifier.service.NotificationService;
 import com.iamjunhyeok.MovieNotifier.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
@@ -34,6 +36,10 @@ public class BatchConfiguration {
     private final PlatformTransactionManager platformTransactionManager;
 
     private final UserService userService;
+
+    private final MovieService movieService;
+
+    private final NotificationService notificationService;
 
     @Bean
     public Job job() {
@@ -71,11 +77,11 @@ public class BatchConfiguration {
 
     @Bean
     public DataStorageItemWriter dataStorageItemWriter() {
-        return new DataStorageItemWriter();
+        return new DataStorageItemWriter(movieService);
     }
 
     @Bean
     public SendNotificationItemWriter sendNotificationItemWriter() {
-        return new SendNotificationItemWriter();
+        return new SendNotificationItemWriter(notificationService);
     }
 }
