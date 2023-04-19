@@ -28,4 +28,8 @@ public class NotificationService {
     public String getMessage(Movie movie) {
         return movie.toString();
     }
+
+    public boolean isAlreadySent(Movie movie, User user) {
+        return notificationRepository.existsByUserAndMovie(user, movie);
+    }
 }

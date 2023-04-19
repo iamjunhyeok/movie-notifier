@@ -3,6 +3,7 @@ package com.iamjunhyeok.MovieNotifier.batch;
 import com.iamjunhyeok.MovieNotifier.domain.GenreRating;
 import com.iamjunhyeok.MovieNotifier.domain.Movie;
 import com.iamjunhyeok.MovieNotifier.domain.User;
+import com.iamjunhyeok.MovieNotifier.service.NotificationService;
 import com.iamjunhyeok.MovieNotifier.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.ItemProcessor;
@@ -17,6 +18,8 @@ public class FilterByUserItemProcessor implements ItemProcessor<Movie, Map<Movie
 
     private final UserService userService;
 
+    private final NotificationService notificationService;
+
     @Override
     public Map<Movie, List<User>> process(Movie item) throws Exception {
         List<User> users = userService.getUsers();
@@ -24,7 +27,8 @@ public class FilterByUserItemProcessor implements ItemProcessor<Movie, Map<Movie
         for (User user : users) {
             for (GenreRating genreRating : user.getGenreRatings()) {
                 if (item.getGenre().equals(genreRating.getGenre())
-                        && item.getRating() >= genreRating.getRating()) {
+                        && item.getRating() >= genreRating.getRating()
+                        && !notificationService.isAlreadySent(item, user)) {
                     matchedUsers.add(user);
                 }
             }

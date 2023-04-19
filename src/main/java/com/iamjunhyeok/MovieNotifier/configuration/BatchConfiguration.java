@@ -55,7 +55,7 @@ public class BatchConfiguration {
         return new StepBuilder("step", jobRepository)
                 .<Movie, Map<Movie, List<User>>>chunk(10, platformTransactionManager)
                 .reader(webCrawlingItemReader())
-                .processor(filterByUserItemProcessor(userService))
+                .processor(filterByUserItemProcessor())
                 .writer(chainedItemWriter(dataStorageItemWriter(), sendNotificationItemWriter()))
                 .build();
     }
@@ -66,8 +66,8 @@ public class BatchConfiguration {
     }
 
     @Bean
-    public FilterByUserItemProcessor filterByUserItemProcessor(UserService userService) {
-        return new FilterByUserItemProcessor(userService);
+    public FilterByUserItemProcessor filterByUserItemProcessor() {
+        return new FilterByUserItemProcessor(userService, notificationService);
     }
 
     @Bean
