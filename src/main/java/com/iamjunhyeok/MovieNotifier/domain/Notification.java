@@ -1,8 +1,11 @@
 package com.iamjunhyeok.MovieNotifier.domain;
 
+import com.iamjunhyeok.MovieNotifier.constant.NotificationStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,16 +14,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.LocalDateTime;
 
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @Getter
 @Entity
-public class Notification {
+public class Notification extends DateTime {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "notification_id", nullable = false)
@@ -29,9 +29,8 @@ public class Notification {
     @Column(length = 1000)
     private String message;
 
-    @CreatedDate
-    @Column(updatable = false)
-    private LocalDateTime createdDate;
+    @Enumerated(EnumType.STRING)
+    private NotificationStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -43,7 +42,12 @@ public class Notification {
 
     public Notification(String message, User user, Movie movie) {
         this.message = message;
+        this.status = NotificationStatus.PENDING;
         this.user = user;
         this.movie = movie;
+    }
+
+    public void complete() {
+        this.status = NotificationStatus.COMPLETE;
     }
 }
