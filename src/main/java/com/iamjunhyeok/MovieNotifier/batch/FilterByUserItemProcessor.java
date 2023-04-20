@@ -33,8 +33,11 @@ public class FilterByUserItemProcessor implements ItemProcessor<Movie, Map<Movie
                 }
             }
         }
-        Map<Movie, List<User>> map = new HashMap<>();
-        map.put(item, matchedUsers);
-        return map;
+        if (!matchedUsers.isEmpty()) {
+            Map<Movie, List<User>> movieListMap = new HashMap<>();
+            movieListMap.put(item, matchedUsers);
+            return movieListMap;
+        }
+        return null;
     }
 }
