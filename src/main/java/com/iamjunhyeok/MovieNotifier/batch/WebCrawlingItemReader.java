@@ -22,9 +22,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,32 +56,6 @@ public class WebCrawlingItemReader implements ItemReader<Movie> {
 
     @Value("${movie.queryParams.query}")
     private String query;
-
-    private static final Map<String, Genre> genreMap = new HashMap<>();
-
-    static {
-        genreMap.put("액션", Genre.ACTION);
-        genreMap.put("모험", Genre.ADVENTURE);
-        genreMap.put("애니메이션", Genre.ANIMATION);
-        genreMap.put("전기", Genre.BIOGRAPHY);
-        genreMap.put("코미디", Genre.COMEDY);
-        genreMap.put("범죄", Genre.CRIME);
-        genreMap.put("다큐멘터리", Genre.DOCUMENTARY);
-        genreMap.put("드라마", Genre.DRAMA);
-        genreMap.put("가족", Genre.FAMILY);
-        genreMap.put("판타지", Genre.FANTASY);
-        genreMap.put("역사", Genre.HISTORY);
-        genreMap.put("공포", Genre.HORROR);
-        genreMap.put("공연실황", Genre.MUSIC);
-        genreMap.put("뮤지컬", Genre.MUSICAL);
-        genreMap.put("미스터리", Genre.MYSTERY);
-        genreMap.put("멜로/로맨스", Genre.ROMANCE);
-        genreMap.put("SF", Genre.SF);
-        genreMap.put("스포츠", Genre.SPORT);
-        genreMap.put("스릴러", Genre.THRILLER);
-        genreMap.put("전쟁", Genre.WAR);
-        genreMap.put("서부", Genre.WESTERN);
-    }
 
     public void init() {
         movies = null;
@@ -144,7 +116,8 @@ public class WebCrawlingItemReader implements ItemReader<Movie> {
 
         Long id = extractId(dataArea);
         String title = titleElement.text();
-        Genre genre = genreMap.getOrDefault(genreElement.text(), Genre.ETC);
+
+        Genre genre = Genre.getKeyByValue(genreElement.text());
         int runningTime = Integer.parseInt(runningTimeElement.text().replace("분", ""));
         String[] releaseDate = releaseDateElement.text().split("\\.");
         LocalDate releaseLocalDate = LocalDate.of(Integer.parseInt(releaseDate[0]), Integer.parseInt(releaseDate[1]), Integer.parseInt(releaseDate[2]));
