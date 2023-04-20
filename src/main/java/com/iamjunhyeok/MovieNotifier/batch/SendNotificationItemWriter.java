@@ -21,7 +21,7 @@ public class SendNotificationItemWriter implements ItemWriter<Map<Movie, List<Us
             for (Map.Entry<Movie, List<User>> movieListEntry : movieListMap.entrySet()) {
                 Movie movie = movieListEntry.getKey();
                 List<User> users = movieListEntry.getValue();
-                notificationService.sendNotification(movie, users);
+                notificationService.save(movie, users);
             }
         }
     }

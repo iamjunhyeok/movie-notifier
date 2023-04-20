@@ -46,7 +46,7 @@ public class BatchConfiguration {
         return new JobBuilder("job", jobRepository)
                 .incrementer(new RunIdIncrementer())
                 .start(step())
-                .listener(new CustomJobExecutionListener(webCrawlingItemReader()))
+                .listener(new CustomJobExecutionListener(webCrawlingItemReader(), notificationService))
                 .build();
     }
 
