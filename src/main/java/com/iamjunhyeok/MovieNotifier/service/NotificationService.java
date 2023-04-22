@@ -38,15 +38,6 @@ public class NotificationService {
     }
 
     @Transactional
-    public void save(Movie movie, List<User> users) {
-        String message = getMessage(movie);
-        for (User user : users) {
-            Notification notification = new Notification(message, user, movie);
-            notificationRepository.save(notification);
-        }
-    }
-
-    @Transactional
     public void sendNotification() {
         List<Notification> notifications = notificationRepository.findAllByStatus(NotificationStatus.PENDING);
         Map<User, List<Movie>> userListMap = new HashMap<>();
@@ -61,6 +52,7 @@ public class NotificationService {
 
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append(user.getUsername() + " 님의 선호 장르와 평점을 기반으로 최신 영화 정보를 알려드립니다.");
+            stringBuilder.append(System.lineSeparator());
             stringBuilder.append(System.lineSeparator());
             while (iterator.hasNext()) {
                 Movie movie = iterator.next();
@@ -81,7 +73,7 @@ public class NotificationService {
         StringBuilder message = new StringBuilder();
         message.append(movie.getTitle());
         message.append(System.lineSeparator());
-        message.append("장르 " + movie.getGenre().getValue() + " 러닝타임 " + movie.getRunningTime());
+        message.append("장르 " + movie.getGenre().getValue() + " 러닝타임 " + movie.getRunningTime() + "분");
         message.append(System.lineSeparator());
         message.append("개봉 " + movie.getReleaseDate() + " 평점 " + movie.getRating());
         message.append(System.lineSeparator());
