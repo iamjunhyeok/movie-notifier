@@ -7,10 +7,11 @@ import com.iamjunhyeok.MovieNotifier.batch.FilterByUserItemProcessor;
 import com.iamjunhyeok.MovieNotifier.batch.SendNotificationItemWriter;
 import com.iamjunhyeok.MovieNotifier.batch.WebCrawlingItemReader;
 import com.iamjunhyeok.MovieNotifier.domain.Movie;
+import com.iamjunhyeok.MovieNotifier.domain.Notification;
 import com.iamjunhyeok.MovieNotifier.domain.User;
-import com.iamjunhyeok.MovieNotifier.service.MovieService;
 import com.iamjunhyeok.MovieNotifier.service.NotificationService;
 import com.iamjunhyeok.MovieNotifier.service.UserService;
+import jakarta.persistence.EntityManagerFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -19,6 +20,7 @@ import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
+import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -37,9 +39,9 @@ public class BatchConfiguration {
 
     private final UserService userService;
 
-    private final MovieService movieService;
-
     private final NotificationService notificationService;
+
+    private final EntityManagerFactory entityManagerFactory;
 
     @Bean
     public Job job() {
@@ -72,16 +74,22 @@ public class BatchConfiguration {
 
     @Bean
     public ChainedItemWriter chainedItemWriter(DataStorageItemWriter dataStorageItemWriter, SendNotificationItemWriter sendNotificationItemWriter) {
-        return new ChainedItemWriter(dataStorageItemWriter, sendNotificationItemWriter);
+        return new ChainedItemWriter((dataStorageItemWriter), sendNotificationItemWriter);
     }
 
     @Bean
     public DataStorageItemWriter dataStorageItemWriter() {
-        return new DataStorageItemWriter(movieService);
+        return new DataStorageItemWriter((JpaItemWriter<Movie>) jpaItemWriter());
     }
 
     @Bean
     public SendNotificationItemWriter sendNotificationItemWriter() {
-        return new SendNotificationItemWriter(notificationService);
+        return new SendNotificationItemWriter((JpaItemWriter<Notification>) jpaItemWriter());
+    }
+
+    public JpaItemWriter<?> jpaItemWriter() {
+        JpaItemWriter<?> jpaItemWriter = new JpaItemWriter<>();
+        jpaItemWriter.setEntityManagerFactory(entityManagerFactory);
+        return jpaItemWriter;
     }
 }

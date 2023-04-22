@@ -40,8 +40,7 @@ public class Notification extends DateTime {
     @JoinColumn(name = "movie_id")
     private Movie movie;
 
-    public Notification(String message, User user, Movie movie) {
-        this.message = message;
+    public Notification(User user, Movie movie) {
         this.status = NotificationStatus.PENDING;
         this.user = user;
         this.movie = movie;
