@@ -7,7 +7,9 @@ import com.iamjunhyeok.MovieNotifier.service.NotificationService;
 import com.iamjunhyeok.MovieNotifier.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.ItemProcessor;
+import org.springframework.beans.factory.annotation.Value;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,9 +22,12 @@ public class FilterByUserItemProcessor implements ItemProcessor<Movie, Map<Movie
 
     private final NotificationService notificationService;
 
+    @Value("#{jobParameters['timestamp']}")
+    private LocalTime timestamp;
+
     @Override
     public Map<Movie, List<User>> process(Movie item) throws Exception {
-        List<User> users = userService.getUsers();
+        List<User> users = userService.getUsersByNotificationTime(timestamp);
         List<User> matchedUsers = new ArrayList<>();
         for (User user : users) {
             for (GenreRating genreRating : user.getGenreRatings()) {

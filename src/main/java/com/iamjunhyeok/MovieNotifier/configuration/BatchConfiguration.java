@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
@@ -68,13 +69,14 @@ public class BatchConfiguration {
     }
 
     @Bean
+    @StepScope
     public FilterByUserItemProcessor filterByUserItemProcessor() {
         return new FilterByUserItemProcessor(userService, notificationService);
     }
 
     @Bean
     public ChainedItemWriter chainedItemWriter(DataStorageItemWriter dataStorageItemWriter, SendNotificationItemWriter sendNotificationItemWriter) {
-        return new ChainedItemWriter((dataStorageItemWriter), sendNotificationItemWriter);
+        return new ChainedItemWriter(dataStorageItemWriter, sendNotificationItemWriter);
     }
 
     @Bean
