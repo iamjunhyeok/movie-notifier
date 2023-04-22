@@ -9,6 +9,8 @@ import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
+import java.time.LocalTime;
+
 @RequiredArgsConstructor
 public class BatchScheduledJob extends QuartzJobBean {
 
@@ -22,6 +24,7 @@ public class BatchScheduledJob extends QuartzJobBean {
     protected void executeInternal(JobExecutionContext context) {
         JobParameters jobParameters = new JobParametersBuilder(this.jobExplorer)
                 .getNextJobParameters(this.job)
+                .addLocalTime("timestamp", LocalTime.now())
                 .toJobParameters();
 
         try {
