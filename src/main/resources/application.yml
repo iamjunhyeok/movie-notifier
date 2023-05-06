@@ -1,0 +1,42 @@
+spring:
+  datasource:
+    url: ENC(3PeX0pIHe9JF3glKCWA92Q1HJOT8kylYJ7JcwMc2WDy6SQ4APigR4A==)
+    driver-class-name: ENC(LoXwkyarJcHMTtJjyva7L/R0lxySDNZ6)
+    username: ENC(VtjAOqNXpjVzPS0roFai6A==)
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: ENC(T61FsizgwNOtAswwR/U+QfbK1V6NiHkN)
+    properties:
+      hibernate:
+        show_sql: ENC(HJdpmg2lQ0RVOUtHdr/Qpw==)
+        format_sql: ENC(Qm29sYWf4639qNykjJPrpg==)
+    open-in-view: ENC(CawC8MEIkG2fZX3IO1AEbg==)
+
+  batch:
+    jdbc:
+      initialize-schema: always
+
+logging:
+  level:
+    org.hibernate.sql: debug
+    org.hibernate.orm.jdbc.bind: trace
+
+movie:
+  url: ENC(EjEKurhP4qKlumLqA/fkEOMlc8oIHwelo0Z/47qK8fzSwRBVoTOMGhdeEpE+J9lCZAmqcU/RBYPXmzmQMs2Q8RmgbLhPgMT9)
+  queryParams:
+    key: ENC(Cx71ZQV+s+pPX/HxLDlalms7urInqyC88pQD1q6HMRU=)
+    pkid: ENC(u3fPxTfamxI9kYTphfX4PA==)
+    where: ENC(Vq52rMc2+vSETUIVGSaVyvNCddkPwfwn)
+    start: ENC(FCZ0jlq4gbvE+VubnaNu1w==)
+    display: ENC(KeWU+Y1xB9dCc5yvl6jfzQ==)
+    sort: ENC(Yly3FARj194mkmTs4My5ug==)
+    query: ENC(xfjBBPpb+oHtZBkqCLSwJB/6nXj0llG/gkHvH+O78KA=)
+
+sms:
+  api-key: ENC(/i2EH9JlMm6MtTQp5B9Oti9VpU7JSYzmMaZAgd1wbMM=)
+  secret-key: ENC(1sjs5pkVgFuBYoYYDpxrkQmlY3VPWjomsrZg2YjFVDNmvuRqNdOfmjrQP/kRS0h6)
+  domain: ENC(S7nMZCvMHBwvOgPL79Gq8Ttzmb9ijuUcX31nf3VF0c4Ywp+bZUUAow==)
+  sender: ENC(NUatBrcsezp8PIzZq34nFJgdaVRqJZZ2)
+
