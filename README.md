@@ -7,10 +7,11 @@
 ## 사용 기술 및 환경
 - Java
 - Spring Boot
+- Spring Batch
 - JPA/Hibernate
-- MySQL
+- MariaDB
 - Git
 - Gradle
 - Docker
 - Jenkins
-- AWS (EC2, ECR/ECS, RDS)
+- AWS (EC2, ECR, RDS)
