@@ -15,6 +15,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select u from User u join fetch u.genreRatings gr where u.notificationTime = :localTime")
     List<User> findAllByNotificationTime(LocalTime localTime);
 
-    @CacheEvict(value = "users")
+    @CacheEvict(value = "users", allEntries = true)
     <S extends User> S save(S entity);
 }
