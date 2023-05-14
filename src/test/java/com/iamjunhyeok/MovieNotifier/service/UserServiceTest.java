@@ -27,7 +27,7 @@ class UserServiceTest {
 
     @Test
     @DisplayName("알림 시간으로 사용자 조회")
-    void testGetUsersByNotificationTime() {
+    void testFindUsersByNotificationTime() {
         // Arrange
         LocalTime notificationTime = LocalTime.of(17, 0);
         List<User> users = Arrays.asList(new User("jeon", "1231231", "01012345678"));
@@ -39,6 +39,8 @@ class UserServiceTest {
         // Assert
         assertEquals(users.size(), result.size());
         assertEquals(users.get(0).getId(), result.get(0).getId());
+        assertEquals(users.get(0).getUsername(), result.get(0).getUsername());
+        assertEquals(users.get(0).getPassword(), result.get(0).getPassword());
+        assertEquals(users.get(0).getPhoneNumber(), result.get(0).getPhoneNumber());
     }
-
 }
