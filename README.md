@@ -15,12 +15,12 @@
 <br>
 
 ## 사용 기술 및 환경
-- Java
-- Spring Boot
+- Java 17
+- Spring Boot 3
+- Spring Data JPA
 - Spring Batch
 - Quartz Scheduler
-- JPA/Hibernate
-- MariaDB
+- Maria DB
 - Git
 - Gradle
 - Docker
